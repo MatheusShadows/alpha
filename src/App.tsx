@@ -40,7 +40,7 @@ const App: React.FC=()=>{
             });
         try {
           //http://192.168.1.60:3013/alfa/${cnpj}/10/${first}
-          const {data} = await axios.get(`http://localhost:3013/${cnpj}/10/${first}`);
+          const {data} = await axios.get(`http://192.168.100.13:3013/${cnpj}/10/${first}`);
           console.log(cnpj);
           console.log(data);
           setTransacoes(data.cobrancas);
