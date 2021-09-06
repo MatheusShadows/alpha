@@ -29,6 +29,17 @@ const App: React.FC=()=>{
     //**** Alteração para testes N4 ****
 
     const Search = async ()=>{
+      if(!cnpj){
+        toast.warning('Insira um CNPJ Válido',{
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined})
+      }
+      else{
         toast.info('Buscando...',{
             position: "top-right",
             autoClose: 2000,
@@ -46,22 +57,9 @@ const App: React.FC=()=>{
           setTransacoes(data.cobrancas);
           setUser(data.usuario_nome);
           console.log(transacoes);
-          if(!data){          
-            setCnpj('');
-            setTransacoes([]);
-            toast.error('CNPJ não encontrado',{
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                });
-        }else{
             toast.success('Movimentações Encontradas',{
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -69,25 +67,41 @@ const App: React.FC=()=>{
                 progress: undefined,
               })
         }
-        } catch (err) {
+         catch (err) {
+           if (err instanceof TypeError){
+            setFCnpj('');
+            setCnpj('');
+            setTransacoes([]);
+            setUser('');
+            toast.error('CNPJ não encontrado',{
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              }) 
+           }else{
           console.log(err);
-          setCnpj('');
           setTransacoes([]);
+          setUser('');
           toast.error('Erro de Conexão com o Banco de Dados',{
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
             });
-        }
-      }
+        }}
+    }}
       const Clean=()=>{
           setFCnpj('');
           setCnpj('');
           setTransacoes([]);
+          setUser('');
           toast.success('Busca Resetada',{
             position: "top-right",
             autoClose: 5000,
